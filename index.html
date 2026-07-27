@@ -216,9 +216,93 @@
             stroke-linejoin: round;
         }
 
+        /* Anuncio destacado del evento */
+        .evento-banner {
+            display: flex;
+            width: 100%;
+            background: #FFFFFF;
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 25px 50px -20px rgba(26, 40, 59, 0.3);
+            margin-bottom: 46px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s;
+            border: 1.5px solid rgba(26, 40, 59, 0.08);
+        }
+        .evento-banner:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 30px 60px -18px rgba(235, 95, 42, 0.35);
+        }
+        .evento-imagen {
+            width: 42%;
+            min-height: 100%;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .evento-imagen img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .evento-info {
+            padding: 26px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .evento-eyebrow {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent-orange);
+        }
+        .evento-titulo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        .evento-titulo .amp {
+            font-style: italic;
+            font-weight: 600;
+            color: var(--accent-orange);
+        }
+        .evento-sub {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+        .evento-cta {
+            margin-top: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-orange);
+        }
+
         @media (max-width: 480px) {
             .wrapper {
                 padding: 30px 20px;
+            }
+            .evento-banner {
+                flex-direction: column;
+                margin-bottom: 34px;
+            }
+            .evento-imagen {
+                width: 100%;
+                height: 170px;
+                position: relative;
+            }
+            .evento-info {
+                padding: 20px 22px;
+            }
+            .evento-titulo {
+                font-size: 25px;
             }
             .logo-section {
                 flex-direction: row;
@@ -267,6 +351,16 @@
                 <h2 class="logo-text-malaga">Málaga</h2>
             </div>
         </header>
+
+        <a href="/evento/" class="evento-banner animate delay-2">
+            <div class="evento-imagen"><img src="evento/foto-piscina.png" alt="Casa rural con piscina en Coín"></div>
+            <div class="evento-info">
+                <div class="evento-eyebrow">🎉 Próximo evento · Dom 23 de agosto</div>
+                <div class="evento-titulo">Paella <span class="amp">&amp;</span> Piscina</div>
+                <div class="evento-sub">Pool Party Bachatera en una casa rural con piscina en Coín. Paella, barbacoa, talleres y 2 bebidas · 30 € todo incluido · Solo 50 plazas.</div>
+                <div class="evento-cta">Ver el evento y reservar →</div>
+            </div>
+        </a>
 
         <main class="content-card animate delay-2">
             <h3 class="letter-greeting">Hola, soy Pedro.</h3>
