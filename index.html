@@ -236,22 +236,24 @@
         }
         .evento-imagen {
             width: 42%;
-            min-height: 100%;
+            /* misma proporción que el cartel (1080x1350) → entra entero, sin recorte */
+            aspect-ratio: 1080 / 1350;
             position: relative;
             flex-shrink: 0;
+            align-self: center;
         }
         .evento-imagen img {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: center 38%;
+            object-fit: contain;
         }
         .evento-info {
             padding: 26px 28px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             gap: 8px;
         }
         .evento-eyebrow {
@@ -295,8 +297,10 @@
                 margin-bottom: 34px;
             }
             .evento-imagen {
-                width: 100%;
-                height: 170px;
+                width: 66%;
+                height: auto;
+                aspect-ratio: 1080 / 1350;
+                margin: 18px auto 0;
                 position: relative;
             }
             .evento-info {
