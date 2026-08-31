@@ -307,6 +307,89 @@
             flex-shrink: 0;
         }
 
+        /* Reel de la primera edición */
+        .reel {
+            width: 100%;
+            margin: 46px 0 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .reel-texto {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 440px;
+            margin-bottom: 22px;
+        }
+        .reel-texto strong { color: var(--text-dark); font-weight: 600; }
+        .reel-marco {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 9 / 16;
+            border-radius: 22px;
+            overflow: hidden;
+            background: var(--text-dark);
+            box-shadow: 0 26px 50px -18px rgba(26, 40, 59, 0.45);
+        }
+        .reel-marco video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .reel-play {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            cursor: pointer;
+            background: rgba(26, 40, 59, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .reel-play span {
+            width: 68px; height: 68px;
+            border-radius: 50%;
+            background: var(--accent-orange);
+            box-shadow: 0 10px 24px -6px rgba(26, 40, 59, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .reel-play svg { width: 26px; height: 26px; fill: #FFFFFF; margin-left: 4px; }
+        .reel-sonido {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            border: 0;
+            cursor: pointer;
+            border-radius: 999px;
+            padding: 8px 14px 8px 11px;
+            background: rgba(26, 40, 59, 0.62);
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            backdrop-filter: blur(4px);
+        }
+        .reel [hidden] { display: none !important; }
+        .reel-sonido svg {
+            width: 16px; height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
         /* Fotos de la primera edición · polaroids tiradas sobre la mesa */
         .fotos {
             width: 100%;
@@ -470,6 +553,23 @@
             <div class="pola"><img src="foto-4.jpg" alt="El taller bajo la carpa"></div>
         </section>
 
+        <section class="reel animate delay-4">
+            <p class="reel-texto">Así fue la última vez. <strong>Puedes verlo en vídeo en 20 segundos.</strong></p>
+            <div class="reel-marco">
+                <video id="reel-video" poster="reel-poster.jpg" muted loop playsinline autoplay preload="metadata"
+                       aria-label="Vídeo de la fiesta bachatera del 23 de agosto en la casa rural de Coín">
+                    <source src="reel.mp4" type="video/mp4">
+                </video>
+                <button id="reel-play" class="reel-play" type="button" aria-label="Reproducir el vídeo" hidden>
+                    <span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+                </button>
+                <button id="reel-sonido" class="reel-sonido" type="button" aria-label="Activar el sonido del vídeo" hidden>
+                    <svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M16 9.5a3.5 3.5 0 0 1 0 5"/></svg>
+                    <span id="reel-sonido-txt">Sonido</span>
+                </button>
+            </div>
+        </section>
+
         <div class="plazas-aviso animate delay-4">Solo 60 plazas</div>
 
         <section class="cta-section animate delay-4">
@@ -504,5 +604,44 @@
         <div class="volver animate delay-4"><a href="../index.html">← bachatamalaga.com</a></div>
     </div>
 
+    <script>
+        (function () {
+            var v = document.getElementById('reel-video');
+            var play = document.getElementById('reel-play');
+            var sonido = document.getElementById('reel-sonido');
+            if (!v || !play || !sonido) return;
+
+            function pintar() {
+                var corriendo = !v.paused && !v.ended;
+                play.hidden = corriendo;
+                sonido.hidden = !corriendo;
+            }
+            v.addEventListener('play', pintar);
+            v.addEventListener('pause', pintar);
+
+            play.addEventListener('click', function () {
+                v.play();
+            });
+
+            sonido.addEventListener('click', function () {
+                v.muted = !v.muted;
+                document.getElementById('reel-sonido-txt').textContent = v.muted ? 'Sonido' : 'Silenciar';
+                sonido.setAttribute('aria-label', v.muted ? 'Activar el sonido del vídeo' : 'Silenciar el vídeo');
+                if (v.paused) v.play();
+            });
+
+            // Solo se reproduce mientras se ve; fuera de pantalla se pausa.
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (entradas) {
+                    entradas.forEach(function (e) {
+                        if (e.isIntersecting) { v.play().catch(function () {}); }
+                        else if (!v.paused) { v.pause(); }
+                    });
+                }, { threshold: 0.35 }).observe(v);
+            }
+
+            pintar();
+        })();
+    </script>
 </body>
 </html>
