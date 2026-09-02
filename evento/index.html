@@ -264,6 +264,16 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+        .cta-grupo {
+            display: inline-flex; align-items: center; gap: 9px;
+            margin-top: 14px; padding: 11px 22px; border-radius: 999px;
+            border: 1.5px solid rgba(26,40,59,.22); background: #fff;
+            color: #2F3E46; text-decoration: none; font-size: 15px; font-weight: 600;
+            transition: border-color .2s, transform .2s;
+        }
+        .cta-grupo:hover { border-color: #25D366; transform: translateY(-1px); }
+        .cta-grupo svg { width: 18px; height: 18px; fill: none; stroke: #25D366; stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round; }
         .cta-nota {
             margin-top: 14px;
             font-size: 14px;
@@ -573,11 +583,16 @@
         <div class="plazas-aviso animate delay-4">Solo 60 plazas</div>
 
         <section class="cta-section animate delay-4">
-            <a href="https://chat.whatsapp.com/FkmGYj6dWs8Dr117liOcGt" class="cta-button" target="_blank" rel="noopener">
-                <svg class="icon-wa" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                Únete al grupo de WhatsApp
+            <a href="https://entradium.com/events/adios-vernao" class="cta-button" target="_blank" rel="noopener">
+                <svg class="icon-wa" viewBox="0 0 24 24"><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a3 3 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a3 3 0 0 0 0-6z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg>
+                Reservar mi plaza · 30 €
             </a>
-            <div class="cta-nota">Dentro del grupo te paso el enlace para reservar tu entrada de 30 €. Solo 60 plazas: cuando se acaban, se acaban.</div>
+            <div class="cta-nota">Pago con tarjeta, plaza confirmada al momento. Solo 60 plazas: cuando se acaban, se acaban.</div>
+
+            <a class="cta-grupo" href="https://chat.whatsapp.com/FkmGYj6dWs8Dr117liOcGt" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                ¿Dudas antes de reservar? Entra al grupo y pregunta
+            </a>
 
             <div class="botones-secundarios">
                 <a class="boton-sec" href="https://www.google.com/maps/search/?api=1&amp;query=Espacio%20El%20Renacimiento%2C%20Co%C3%ADn%2C%20M%C3%A1laga" target="_blank" rel="noopener">
