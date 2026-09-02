@@ -625,16 +625,53 @@
 
             sonido.addEventListener('click', function () {
                 v.muted = !v.muted;
+                // Si lo silencia a mano, no se le vuelve a activar solo al hacer scroll.
+                silenciadoPorElUsuario = v.muted;
+                pintarSonido();
+                if (v.paused) v.play();
+            });
+
+            function pintarSonido() {
                 document.getElementById('reel-sonido-txt').textContent = v.muted ? 'Sonido' : 'Silenciar';
                 sonido.setAttribute('aria-label', v.muted ? 'Activar el sonido del vídeo' : 'Silenciar el vídeo');
-                if (v.paused) v.play();
+            }
+
+            var aLaVista = false;
+            var silenciadoPorElUsuario = false;
+
+            // Arranca con sonido al entrar en pantalla. Los navegadores solo lo permiten si
+            // el usuario ya ha interactuado con la pagina; si lo rechazan, se cae a mudo —
+            // sin este fallback la promesa se rechaza y el video NO se reproduce en absoluto.
+            function reproducir() {
+                if (!silenciadoPorElUsuario) v.muted = false;
+                var p = v.play();
+                if (p && p.catch) {
+                    p.catch(function () {
+                        v.muted = true;
+                        pintarSonido();
+                        v.play().catch(function () {});
+                    });
+                }
+                pintarSonido();
+            }
+
+            // Primer gesto real del usuario en cualquier parte de la pagina: a partir de ahi
+            // el navegador ya permite el sonido, asi que se activa si el video esta a la vista.
+            ['pointerdown', 'touchstart', 'keydown'].forEach(function (ev) {
+                document.addEventListener(ev, function () {
+                    // Por reproducir(), que si el navegador rechaza el sonido vuelve a mudo y
+                    // sigue reproduciendo. Sin eso el video se quedaba PAUSADO al fallar el play
+                    // con sonido, y el visitante veia el reel parado (medido con el navegador).
+                    if (aLaVista && v.muted && !silenciadoPorElUsuario) reproducir();
+                }, { once: true, passive: true });
             });
 
             // Solo se reproduce mientras se ve; fuera de pantalla se pausa.
             if ('IntersectionObserver' in window) {
                 new IntersectionObserver(function (entradas) {
                     entradas.forEach(function (e) {
-                        if (e.isIntersecting) { v.play().catch(function () {}); }
+                        aLaVista = e.isIntersecting;
+                        if (e.isIntersecting) { reproducir(); }
                         else if (!v.paused) { v.pause(); }
                     });
                 }, { threshold: 0.35 }).observe(v);
